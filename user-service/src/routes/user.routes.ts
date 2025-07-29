@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { FastifyTypedInstance } from "../@types/fastify.types";
-import { IUserRepository } from "../repositories/user.repository.mock";
 import { User } from "../models/user.model";
+import { IUserRepository } from "../repositories/user.repository.interface";
 
 export async function userRoutes(app: FastifyTypedInstance, repository: IUserRepository) {
 
@@ -51,5 +51,5 @@ export async function userRoutes(app: FastifyTypedInstance, repository: IUserRep
       reply.status(500).send({ error: "Failed to delete user" });
     }
   })
-  
+
 }

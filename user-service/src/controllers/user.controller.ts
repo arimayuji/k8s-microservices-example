@@ -1,5 +1,5 @@
 import { User } from "../models/user.model";
-import { IUserRepository } from "../repositories/user.repository.mock";
+import { IUserRepository } from "../repositories/user.repository.interface";
 
 export class UserController {
   constructor(private readonly repository: IUserRepository) { }
@@ -24,7 +24,7 @@ export class UserController {
 
   async deleteUser(id: string): Promise<void> {
     await this.repository.deleteUser(id);
-    
+
     return Promise.resolve();
   }
 }
