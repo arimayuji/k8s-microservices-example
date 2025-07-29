@@ -94,5 +94,5 @@ curl http://<MINIKUBE_IP>/users/health
 
 ## 👨‍💻 Autor
 
-Feito por [Seu Nome Aqui]  
-GitHub: [github.com/seuusuario](https://github.com/seuusuario)
+Feito por Yuji Miguel Arima 
+GitHub: [github.com/arimayuji](https://github.com/arimayuji)
