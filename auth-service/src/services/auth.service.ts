@@ -9,7 +9,7 @@ export class AuthService {
     const user = await this.IAuthRepository.findUserByEmail(email);
 
     if(!user) {
-      return "User not found";
+      throw new Error("User not found");
     }
 
     const isValidPassword = await compare(password, user.passwordHash);
@@ -25,7 +25,7 @@ export class AuthService {
     const isUserExists = await this.IAuthRepository.findUserByEmail(email);
 
     if (isUserExists) {
-      return "User already exists";
+      throw new Error("User already exists");
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -39,7 +39,7 @@ export class AuthService {
     const isUserExists = await this.IAuthRepository.findUserByEmail(email);
 
     if (!isUserExists) {
-      return "User not found";
+       throw new Error("User not found");
     }
 
     const newHashedPassword = await bcrypt.hash(newPassword, 10);
@@ -53,7 +53,7 @@ export class AuthService {
     const user = await this.IAuthRepository.findUserByEmail(email);
     
     if (!user) {
-      return null;
+      throw new Error("User not found");
     }
 
     return user;
