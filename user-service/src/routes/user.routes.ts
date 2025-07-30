@@ -1,15 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 import { FastifyTypedInstance } from "../@types/fastify.types";
 import { User } from "../models/user.model";
-import { IUserRepository } from "../repositories/user.repository.interface";
+import { UserController } from "../controllers/user.controller";
 
-export async function userRoutes(app: FastifyTypedInstance, repository: IUserRepository) {
-
-  app.post("/users", async (request: FastifyRequest, reply: FastifyReply) => {
-    const user = request.body as User;
+export async function userRoutes(app: FastifyTypedInstance, controller: UserController) {
+  app.post("/users", async (request: FastifyRequest<{ Body: User }>, reply: FastifyReply) => {
+    const user = request.body;
 
     try {
-      const createdUser = await repository.createUser(user);
+      const createdUser = await controller.createUser(user);
       reply.status(201).send(createdUser);
     } catch (error) {
       reply.status(500).send({ error: "Failed to create user" });
@@ -17,11 +16,11 @@ export async function userRoutes(app: FastifyTypedInstance, repository: IUserRep
 
   })
 
-  app.get("users/:id", async (request: FastifyRequest<{ Params: { id: string }}>, reply: FastifyReply) => {
+  app.get("/users/:id", async (request: FastifyRequest<{ Params: { id: string }}>, reply: FastifyReply) => {
     const id = request.params.id;
 
     try {
-      const user = await repository.findById(id);
+      const user = await controller.findById(id);
       reply.status(200).send(user);
     } catch (error) {
       reply.status(500).send({ error: "Failed to find user" });
@@ -34,7 +33,7 @@ export async function userRoutes(app: FastifyTypedInstance, repository: IUserRep
     const user = request.body as Partial<User>;
 
     try {
-      const updatedUser = await repository.updateUser(id, user);
+      const updatedUser = await controller.updateUser(id, user);
       reply.status(200).send(updatedUser);
     } catch (error) {
       reply.status(500).send({ error: "Failed to update user" });
@@ -45,7 +44,7 @@ export async function userRoutes(app: FastifyTypedInstance, repository: IUserRep
     const id = request.params.id;
 
     try {
-      await repository.deleteUser(id);
+      await controller.deleteUser(id);
       reply.status(204).send();
     } catch (error) {
       reply.status(500).send({ error: "Failed to delete user" });
