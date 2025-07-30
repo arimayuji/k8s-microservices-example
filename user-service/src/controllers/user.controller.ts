@@ -1,30 +1,44 @@
 import { User } from "../models/user.model";
-import { IUserRepository } from "../repositories/user.repository.interface";
+import { UserService } from "../services/user.service";
 
 export class UserController {
-  constructor(private readonly repository: IUserRepository) { }
+  constructor(private readonly service: UserService) { }
   
   async createUser(user: User): Promise<User> {
-    const createdUser = await this.repository.createUser(user);
-    
-    return createdUser;
+    try {
+      const createdUser = await this.service.createUser(user);
+      
+      return createdUser;
+    } catch (error) {
+      throw new Error("Failed to create user");
+    }
   }
 
-  async findUser(id: string): Promise<User | null> {
-    const user = await this.repository.findById(id);
-    
-    return user;
+  async findById(id: string): Promise<User | null> {
+    try {
+      const user = await this.service.findById(id);
+      
+      return user;
+    }catch (error) {
+      throw new Error("User not found");
+    }
   }
 
   async updateUser(id: string, user: Partial<User>): Promise<User | null> {
-    const updatedUser = await this.repository.updateUser(id, user);
+    try {
+      const updatedUser = await this.service.update(user, id);
 
-    return updatedUser;
+      return updatedUser;
+    } catch (error) {
+      throw new Error("Failed to update user");
+    }
   }
 
   async deleteUser(id: string): Promise<void> {
-    await this.repository.deleteUser(id);
-
-    return Promise.resolve();
+    try {
+      await this.service.remove(id);
+    } catch (error) {
+      throw new Error("Failed to delete user");
+    }
   }
 }
