@@ -1,28 +1,44 @@
 import fastify from "fastify";
 import { userRoutes } from "./routes/user.routes";
-import { ZodTypeProvider } from "fastify-type-provider-zod";
+import { jsonSchemaTransform, ZodTypeProvider } from "fastify-type-provider-zod";
 import { InMemoryRepository } from "./repositories/user.repository.mock";
+import { UserService } from "./services/user.service";
+import { UserController } from "./controllers/user.controller";
+import { fastifySwagger } from "@fastify/swagger";
 
 const app = fastify({
   logger: true,
 }).withTypeProvider<ZodTypeProvider>();
 
-const PORT = 8080;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 8080;
 
 const start = async () => {
   try {
+    await app.register(fastifySwagger, {
+      openapi: {
+        info: {
+          title: "Whatlas API",
+          version: "1.0.0",
+        },
+        servers: [{ url: `http://localhost:${PORT}` }],
+      },
+      transform: jsonSchemaTransform,
+    });
+
     await app.register((instance, opts, done) => {
       const repository = new InMemoryRepository();
-      userRoutes(instance, repository);
+      const service = new UserService(repository);
+      const controller = new UserController(service);
+
+      userRoutes(instance, controller);
       done();
-    })
+    });
 
     await app.listen({ port: PORT, host: "0.0.0.0" });
-    app.log.info(`🚀 Server running on port ${PORT}`);
+    app.log.info(`🚀 Server running at http://localhost:${PORT}`);
 
-    await app.ready();
   } catch (err) {
-    app.log.error("Failed to start server:", err);
+    app.log.error("❌ Failed to start server:", err);
     process.exit(1);
   }
 };
