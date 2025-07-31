@@ -5,6 +5,7 @@ import { InMemoryRepository } from "./repositories/user.repository.mock";
 import { UserService } from "./services/user.service";
 import { UserController } from "./controllers/user.controller";
 import { fastifySwagger } from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 
 const app = fastify({
   logger: true,
@@ -17,12 +18,16 @@ const start = async () => {
     await app.register(fastifySwagger, {
       openapi: {
         info: {
-          title: "Whatlas API",
+          title: "User Service API",
           version: "1.0.0",
         },
         servers: [{ url: `http://localhost:${PORT}` }],
       },
       transform: jsonSchemaTransform,
+    });
+
+    await app.register(fastifySwaggerUi, {
+      routePrefix: "/docs",
     });
 
     await app.register((instance, opts, done) => {
