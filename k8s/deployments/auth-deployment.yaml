@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: auth-container
-          image: yujiarima/auth-service:v1
+          image: yujiarimadev/auth-service:v1
           ports:
             - containerPort: 8081
           livenessProbe:
