@@ -17,7 +17,29 @@ spec:
     spec:
       containers:
         - name: user-container
-          image: user-service:latest
+          image:  yujiarima/user-service:v1
           ports:
             - containerPort: 8080
+          livenessProbe:
+            httpGet:
+              path: /user/healthz
+              port: 8081
+            failureThreshold: 3
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /user/readyz
+              port: 8081
+            failureThreshold: 3
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          startupProbe:
+            httpGet:
+              path: /user/startupz
+              port: 8081
+            failureThreshold: 5
+            initialDelaySeconds: 5
+            periodSeconds: 5
+          
 
