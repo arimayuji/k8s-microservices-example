@@ -51,4 +51,31 @@ export async function userRoutes(app: FastifyTypedInstance, controller: UserCont
     }
   })
 
+   app.get("/user/healthz", async (request, reply) => {
+    try {
+      const healthStatus = await controller.healthCheck();
+      reply.send({ status: healthStatus });
+    } catch (error) {
+      reply.status(500).send({ error: "Erro no serviço de autenticação" });
+    }
+  });
+
+  app.get("/user/readyz", async (request, reply) => {
+    try {
+      const readyStatus = await controller.readyCheck();
+      reply.send({ ready: readyStatus });
+    } catch (error) {
+      reply.status(500).send({ error: "Erro no serviço de autenticação" });
+    }
+  })
+
+  app.get("/user/startupz", async (request, reply) => {
+    try {
+      const startupStatus = await controller.startupCheck();
+      reply.send({ startup: startupStatus });
+    } catch (error) {
+      reply.status(500).send({ error: "Erro no serviço de autenticação" });
+    }
+  });
+
 }
