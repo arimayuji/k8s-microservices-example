@@ -1,5 +1,9 @@
 # 🧱 Arquitetura de Microserviços com Kubernetes
 
+<p align="center">
+  <img src="docs/k8s.png" width="600" />
+</p>
+
 Repositório monolítico que demonstra como aplicar conceitos de Kubernetes para orquestrar uma arquitetura de **microserviços** usando duas APIs Node.js separadas: `auth-service` e `user-service`. Os serviços são empacotados com Docker, expostos via `Service` e roteados com `Ingress`.
 
 > Este projeto é educativo. Nenhum provedor cloud é utilizado — tudo roda localmente com `minikube` ou `kind`.
