@@ -67,7 +67,7 @@ export async function authRoutes(app: FastifyTypedInstance, controller: AuthCont
     }
   });
 
-  app.get("/auth/healtz", async (request, reply) => {
+  app.get("/auth/healthz", async (request, reply) => {
     try {
       const healthStatus = await controller.healthCheck();
       reply.send({ status: healthStatus });
