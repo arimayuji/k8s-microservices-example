@@ -5,6 +5,7 @@ import { authRoutes } from "./routes/auth.routes";
 import { AuthController } from "./controllers/auth.controller";
 import { AuthService } from "./services/auth.service";
 import { fastifySwagger } from "@fastify/swagger";
+import fastifySwaggerUi from "@fastify/swagger-ui";
 
 const app = fastify({
   logger: true,
@@ -17,13 +18,17 @@ const start = async () => {
     await app.register(fastifySwagger, {
       openapi: {
         info: {
-          title: "Whatlas API",
+          title: "Auth Service API",
           version: "1.0.0",
         },
         servers: [{ url: `http://localhost:${process.env.PORT || 8081}` }],
       },
       transform: jsonSchemaTransform,
-     });
+    });
+    
+    await app.register(fastifySwaggerUi, {
+      routePrefix: "/docs",
+    });
     
     await app.register((instance, opts, done) => {
       const repository = new InMemoryRepository();
