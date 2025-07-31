@@ -3,6 +3,43 @@ import { UserService } from "../services/user.service";
 
 export class UserController {
   constructor(private readonly service: UserService) { }
+
+
+   async startupCheck(): Promise<string> {
+    try {
+      setTimeout(() => {
+        console.log("Startup check completed");
+      }, 3000);
+
+      return "OK";
+    } catch (error) {
+      throw new Error("Startup check failed");
+    }
+  }
+
+  async healthCheck(): Promise<string> {
+    try {
+      setTimeout(() => {
+        console.log("Health check completed");
+      }, 5000);
+
+      return "OK";
+    } catch (error) {
+      throw new Error("Health check failed");
+    }
+  }
+
+  async readyCheck(): Promise<string> {
+    try {
+      setTimeout(() => {
+        console.log("Ready check completed");
+      }, 7000);
+
+      return "OK";
+    }catch(error) {
+      throw new Error("Ready check failed");
+    }
+  }
   
   async createUser(user: User): Promise<User> {
     try {
