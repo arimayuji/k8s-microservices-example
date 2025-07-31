@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: user-container
-          image:  yujiarimadev/user-service:v1
+          image:  yujiarimadev/user-service:v3
           ports:
             - containerPort: 8080
           livenessProbe:
