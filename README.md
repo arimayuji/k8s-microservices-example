@@ -31,8 +31,8 @@ Repositório monolítico que demonstra como aplicar conceitos de Kubernetes para
 
 | Serviço        | Porta | Descrição                         | Imagem Docker Hub                        |
 |----------------|-------|-----------------------------------|------------------------------------------|
-| `auth-service` | 3001  | Serviço de autenticação           | `docker.io/seuusuario/auth-service`      |
-| `user-service` | 3002  | CRUD de usuários                  | `docker.io/seuusuario/user-service`      |
+| `auth-service` | 8081  | Serviço de autenticação           | `docker.io/seuusuario/auth-service`      |
+| `user-service` | 8080  | CRUD de usuários                  | `docker.io/seuusuario/user-service`      |
 
 ---
 
@@ -42,8 +42,8 @@ As requisições externas são roteadas pelo recurso `Ingress`, com base no cami
 
 | Caminho         | Destino interno          |
 |-----------------|--------------------------|
-| `/auth`         | auth-service:3001        |
-| `/users`        | user-service:3002        |
+| `/auth`         | auth-service:8081        |
+| `/users`        | user-service:8080       |
 
 ---
 
@@ -69,17 +69,6 @@ kubectl apply -f ingress/ingress.yaml
 # Pegue o IP do minikube
 minikube ip
 ```
-
----
-
-## 🧪 Testes
-
-```bash
-curl http://<MINIKUBE_IP>/auth/health
-curl http://<MINIKUBE_IP>/users/health
-```
-
----
 
 ## ✅ Conceitos Demonstrados
 
