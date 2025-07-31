@@ -23,21 +23,21 @@ spec:
           livenessProbe:
             httpGet:
               path: /user/healthz
-              port: 8081
+              port: 8080
             failureThreshold: 3
             initialDelaySeconds: 10
             periodSeconds: 10
           readinessProbe:
             httpGet:
               path: /user/readyz
-              port: 8081
+              port: 8080
             failureThreshold: 3
             initialDelaySeconds: 5
             periodSeconds: 5
           startupProbe:
             httpGet:
               path: /user/startupz
-              port: 8081
+              port: 8080
             failureThreshold: 5
             initialDelaySeconds: 5
             periodSeconds: 5
